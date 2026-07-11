@@ -1,0 +1,119 @@
+驱动开发示例与 WIFI连接
+内容
+•驱动开发代码示例
+•如何使用驱动示例
+•实验 5-1 PWM实现 led呼吸灯
+•WiFi基本概念
+•WiFi STA模式编程
+•实验 5-2 连接 WiFi热点
+一、驱动代码示例
+OpenHarmony 代码中， Hi3861 提供了绝大部分的驱动示例代
+码，包括 I2C、ADC、PWM、SPI 等，为我们快速开发应用层
+代码提供了参考。
+一、驱动代码示例
+
+二、如何使用示例
+驱动示例使用步骤：
+1、创建文件夹，复制示例
+2、编写入口函数
+3、修改头文件
+4、打开对应的宏
+二、如何使用示例
+1、创建文件夹，复制示例。以 app_demo_pwm.c 为例。在 app 中新建文件夹 demo_pwm ，里面存放代
+码demo_pwm.c ，然后 app_demo_pwm.c 所有的代码都复制到 demo_pwm.c 中，整个文件夹如下：
+
+二、如何使用示例
+2、为 demo_pwm.c 编写一个入口函数，通常情况下，是创建一个线程去执行，通用的代码示例如下：
+
+二、如何使用示例
+3、修改头文件，删除掉原先的 include 的头文件，然后添加如下通用头文件，同时修改 BUILD.gn 文件：
+
+二、如何使用示例
+4、打开对应的宏：如果某个驱动对应的宏我们如果没有打开，那么我们可能还得修改 usr_config.mk
+文件，该文件通常路径为： device \hisilicon \hispark_pegasus \sdk_liteos \build \config \usr_config.mk
+
+5-1、实验，用 PWM实现 LED呼吸灯
+实验内容：自由编程，通过 PWM实现 LED呼吸灯，实现 led
+灯渐亮和渐灭。
+四、 WIFI基本概念
+WiFi相关术语
+IEEE：Institute of Electrical and Electronics Engineers ，即电气和电子工程师协会。这是一个国际
+性的电子技术与信息科学工程师的协会。制定了超过 900 个现行的工业标准。
+IEEE 802 ：是局域网 /城域网标准委员会，是 IEEE 下设的众多标准委员会之一。 IEEE802 致力于研究局
+域网与城域网的介质访问控制和物理层规范（包括有线和无线），是全球范围内在该领域的倡导者。
+IEEE 802 系列标准 ：IEEE 802 制定了一系列的标准，统称为 IEEE 802 系列标准，是面向局域网和城域
+网的技术标准集。其中，最广泛使用的有以太网、令牌环网、无线局域网等。
+IEEE 802.11 ：定义了无线局域网（ WLAN）的介质访问控制协议，以及物理层的技术规范。它涉及的
+具体标准也有很多： IEEE 802.11 、IEEE 802.11a 、IEEE 802.11b 、IEEE 802.11g 、IEEE 802.11n 、
+IEEE 802.11ac 、IEEE 802.11ax ，主要区别在于技术的不断补充完善，速度越来越快
+四、 WIFI基本概念
+SSID ：Service Set Identifier ，即服务集标识。 SSID 用于标识不同的网络，长度为 2～32 字
+节。平常我们说的“你的 Wi-Fi 名称是什么？”指的其实就是 SSID
+AP ：Wireless Access Point ，即无线接入点。 AP 用于其他无线设备的连接，相当于有线网
+络的交换机。 AP 需要连接到路由器上才能接入上级网络，很多时候 AP 会和路由器整合到一个
+设备中，比如家庭中使用的无线路由器。
+STA ：Station，即工作站。 IEEE 802.11 标准将其定义为“支持 IEEE 802.11 标准的设备”。
+因此，从理论上来说，所有的 Wi-Fi 设备都可以被称为 Station，比如手机、电脑等，也包括
+AP。
+四、 WIFI基本概念
+BSS ：Basic Service Set ，即基本服务集。 BSS 由一个 AP 和所有连接到这个 AP 上的Wi-Fi 设
+备组成。连接到 AP 上的Wi-Fi 设备也叫 AP 客户端或 Wi-Fi客户端。
+BSSID ：Basic Service Set Identifier ，即基本服务集标识。 BSSID用于标识一个 BSS，通常
+是AP 的MAC 地址。
+WEP：Wired Equivalent Privacy ，即有线等效保密。 WEP 用于对两台无线设备间传输的数
+据进行加密。
+WPA ：Wi-Fi Protected Access ，即Wi-Fi 保护访问。这是一种保护无线网络访问安全的技
+术，目前有 WPA、WPA2 和WPA3 三个标准
+四、 WIFI基本概念
+PSK ：Pre-Shared Key ，即预共享密钥。 PSK 一般在家庭或小型无线网络中使用，用户输入
+事先约定好的密钥接入网络。密钥的长度为 8～63 个ASCII字符，或 64 个16 进制数。
+Band ：频段，也就是频率范围。无线网络使用无线电波进行通信， IEEE802.11 标准定义了
+2.4GHz、3.6GHz、4.9GHz～5.8GHz 等不同的频段。频率高容易导致反射，穿透能力就弱；
+频率低，穿透能力会强一些。 OpenHarmony 定义了 2.4GHz 和5GHz两种频段。
+Channel ：信道，指的是无线网络数据传输的频道。每个频段都被划分为若干个信道。
+四、 WIFI基本概念
+Hi3861V100 芯片的 Wi-Fi 特性，特性如下：
+（1）支持 IEEE 802.11b/g/n ，最大速率为 72.2Mb/s 。
+（2）工作在 2.4GHz 频段，支持全部 14 个信道 ch1～ch14。
+（3）支持标准 20MHz 带宽和 5MHz / 10MHz 窄带宽。
+（4）不支持 40MHz 带宽。
+（5）单收单发，不支持 MIMO。
+（6）支持 WPA 个人版 /WPA2 个人版和 WPS（Wi-Fi Protected Setup ，Wi-Fi 保护设置） 2.0。
+（7）支持 STA 和AP 模式。
+（8）作为 AP 时，最大支持 6 个STA 接入。
+五、 Wi-Fi 的连接过程
+Wi-Fi 的连接过程，就是将 Wi-Fi 客户端和 AP（或者路由器）组成一个无线局域网的过
+程。这个过程分为 3 个阶段，分别是扫描阶段、认证阶段和关联阶段。
+
+五、 Wi-Fi 的连接过程
+Wi-Fi 扫描： Wi-Fi 客户端发现 AP 或路由器的过程。它有两种不同的方式：
+1、主动扫描（ Active Scan): Wi-Fi 客户端在每个信道上都发送探测请求帧， AP或路由器在收到探测请求之后，
+返回探测响应。
+2、被动扫描（ Passive Scan): Wi -Fi 客户端在每个信道上都监听 AP 或路由器发出的信标帧。
+认证： 扫描完成后，需要调用相应的 API 获取扫描结果，再根据 SSID 选择一个 AP 或路由器进行连接。目前，主要
+使用的认证标准是 WPA 或WPA2，最新的标准是 WPA3。
+关联： 将Wi-Fi 客户端注册到 AP 或路由器的过程。 Step1：Wi-Fi 客户端发送关联请求帧； step2：AP 或路由器处理
+关联请求。如果允许关联，就返回 0（表示成功），否则返回状态码。
+五、 WiFi工作模式
+Wi-Fi 设备可以工作在不同的模式中，在每个模式中扮演的角色都不同。常用的 Wi-Fi 工作模式有两种：
+一种是 STA 模式，另一种是 AP 模式。一个 Wi-Fi 设备可以同时支持多种模式，需要通过程序代码让 Wi-Fi 设备处
+于指定的模式中。
+STA模式：具有 Wi-Fi 客户端行为的设备，可以连接到 AP 或路由器上，如手机、电脑、边缘设备、汽车等，
+STA 会扫描附近的 AP 或路由器，选择其中一个想要连接的，经过认证、关联等步骤之后，就与它建立了连接。
+AP 模式： 无线接入点模式，允许其他 Wi-Fi 客户端与之建立连接，并且提供无线网络服务。
+五、 WIFI相关 API介绍
+Hi3861 提供了非常多的 wifi相关API，主要文件是 hi_wifi_api.h 。这里只列举最重要的几个 API：
+（1）开启STA
+int hi_wifi_sta_start (char * ifname , int * len);
+（2）停止STA
+int hi_wifi_sta_stop (void);
+（3）扫描附件的热点
+int hi_wifi_sta_scan (void);
+（4）连接热点
+int hi_wifi_sta_connect (hi_wifi_assoc_request *req);   
+通常加密方式是： HI_WIFI_SECURITY_WPA2PSK
+5.2、实验，连接自己手机热点
+任务：开启手机热点，开发板连接上自己的热点，通过串口打印出连接状态
+和连接上的 WIFI名称。
+思路：参照上个实验的开发示例流程，编写 demo_wifi_sta.c 业务代码和
+BUILD.gn 编译脚本，通过 wifiapi实现wifi连接和串口打印。

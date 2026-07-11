@@ -1,0 +1,27 @@
+[Normal] 实验报告文档命名方式： 组号_姓名_学号_电子工艺实验报告
+[Normal] 实   验  报  告
+[Normal] 实验课程：     《电子工艺实训》
+[Normal] 实验项目：
+[Normal] 系    别：
+[Normal] 年    级：
+[Normal] 小组编号：
+[Normal] 姓    名：
+[Normal] 学    号：
+[Normal] 实验日期：    2025  年   6 月   日--   日
+[Heading 5] OpenHarmony理论
+[Normal] 1. 简述OpenHarmony 系统架构及与其它主流操作系统的对比。
+[Normal] 2. 简述OpenHarmony 与Harmony OS 的异同点。
+[Normal] 3. 简述华为云与其它主流云的异同点。
+[Heading 5] OpenHarmony实验
+[Normal] GPIO实验
+[Normal] 实验代码、实验现象（图片或视频）、实验分析
+[Normal] ADC实验
+[Normal] 实验代码、实验现象（图片或视频）、实验分析
+[Normal] ***实验
+[Normal] ……
+[Heading 5] 智能小车基础部分
+[Normal] 简述实验过程、相关结果及心得体会。（1000 字左右）
+[Heading 5] 智能小车创新部分
+[Normal] 1.简述创新点、实验结果及相关代码。
+[Normal] 2.实验心得体会。
+[Heading 5] 课程改进建议

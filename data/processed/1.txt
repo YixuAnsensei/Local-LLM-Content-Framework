@@ -1,0 +1,158 @@
+开源鸿蒙小车环境搭建
+及快速入门 -Windows 版
+•Contents
+目录
+01.
+O p e n H a r m o n y
+环境搭建02.
+编写
+“ H e l l o  
+Wo r l d ”程
+序03.
+编译04.
+烧录05.
+运行
+OpenHarmony 环
+境搭建01.
+安装 Visual Studio Code
+VSCode 全称是 Visual Studio Code ，它是一款免费开源的现代化轻量级代码编辑器 ，支持语法高亮 、智能代码补全 、自定义按键 、括号
+匹配 、代码片段 、代码对比 diff、git等特性 。VSCode 有Windows 、Linux 和macOS 三个版本 ，并且是一个跨平台的编辑器软件 。
+VSCode 官方下载地址是： https ://code .visualstudio .com/
+
+安装插件
+必须安装
+C/C++ 头文件搜索，代码提示，代码格式化
+Include Autocomplete 头文件自动包含
+CodeLLDB基于 LLDB 调试引擎构建，专为 C、C++ 、Rust 等语言提供高效的调试
+支持
+GN 可以很方便的查看 .gn 文件
+可选安装
+vscode -icons 好看的文件图标库
+Chinese (Simplified) 简体中文界面
+C-family Documentation Comments 填写函数或文件的注释格式
+EasyZoom 可以在 Vscode 中使用 Ctrl+ 滑轮进行更改字体大小
+安装 DevEco Device Tool
+●HUAWEI DevEco Device Tool （以下简称 DevEco Device Tool ）是HarmonyOS 面向智
+能设备开发者提供的一站式集成开发环境 ，支持 HarmonyOS 的组件按需定制 ，支持代码编辑 、
+编译 、烧录和调试等功能 ，支持C/C++ 语言 ，以插件的形式部署在 Visual Studio Code 上。
+●下载地址： https ://device .harmonyos .com/cn/develop/ide#download
+
+安装 DevEco Device Tool
+●注 意 ： 安 装 之 前 要 确 认 系 统 未 安 装 Python 环境 ，避 免 版 本 不 对 ，编 译 出 问 题 。如 已 安 装
+Python ，建议卸载 。
+●安装过程会自动帮我们装上对应版本 的Python 。
+
+安装 DevEco Device Tool
+●安装成功后扩展栏里就会显示这四个扩展：
+
+启动 DevEco Device Tool
+●重启VSCode ，点击左侧 DevEco Device Tool ，看到如下界面 ，则表示安装成功：
+
+开发工具下载
+●下 载 开 发 工 具 DevTools_Hi 3861 V100_v1.0。地 址 ： https ://hispark -obs.obs.cn-east -
+3.myhuaweicloud .com/DevTools_Hi 3861 V100_v1.0.zip
+●下载完成后解压 ，注意解压到全英文目录 ，解压完成后的文件目录结构如下所示：
+
+导入工程
+●打开 VSCode ，打开 DevEco Device Tool 主页 ，点击 “导入工程 ”。
+
+导入工程
+●在 导 入 工 程 弹 窗 中 选 择 目 录 C:\Users \CXM \Desktop \2025 \software \3.0-lts-cut-
+windows \3.0-lts，点击 “导入 ”。
+
+导入工程
+●在后续导入工程弹窗 ，SOC 栏选择 Hi3861 ，开发板栏选择 hi3861 ，框架栏选择 hb，之后点
+击“导入 ”，等待导入成功即可 。如设置错误也可后续在 DevECO 工程配置中修改配置 。
+●代码导入成功后 ，即工程创建成功 ，之后可使用该 IDE 实现代码开发 、一键编译 、一键烧写等
+功能 。
+
+导入工程
+●代码导入成功后 ，后续可在 DevEco Device Tool 工具主页直接打开已导入成功的工程 。
+
+配置开发工具
+●配置开发工具路径 ，点击左侧的 “工程配置 ”，选中 “请选择自定义工具包 ”。
+
+配置开发工具
+●然后在右侧窗口中找到 “hi3861 ”，找到 “compiler_bin_path” ，选择到之前下载的开发工
+具。
+
+编写 “Hello World ”
+程序02.
+下方将通过修改源码的方式展示如何编写简
+单程序 ，输出 “Hello world ”。请在下载的源
+码目录中进行下述操作编写程序输出 Hello world编写 “Hello World ”程序
+操作步骤
+●编写业务代码
+●创建HelloWorld 业务并启动
+●新建 ./ a p p l i c a t i o n s / s a m p l e / w i f i -i o t / a p p / m y _ f i r s t _ a p p 下的 h e l l o _ w o r l d .c文件 ，在
+h e l l o _ w o r l d .c中 新 建 业 务 入 口 函 数 H e l l o Wo r l d ，并 实 现 业 务 逻 辑 。并 在 代 码 最 下 方 ，使用
+OpenHarmony 启动恢复模块接口 SYS_RUN() 启动业务 ，SYS_RUN 定义在 ohos_init .h文件中
+
+编写业务代码
+#include <stdio.h>
+#include "ohos_init.h"
+#include "ohos_types.h"
+void HelloWorld(void)
+{
+printf("___________>>>>>>>>>>>>>>>>>>>> [DEMO] 
+Hello world. \n");
+}
+SYS_RUN(HelloWorld);
+编写用于将业务构建成静态库的 BUILD.gn 文件
+●配置 my_first_app 项目文件
+●新建 . /applications/sample/wifi -iot/app/my_first_app 下的 BUILD. gn 文件，并完成如下配置
+●如步骤 1所述， BUILD.gn 文件由三部分内容（目标、源文件、头文件路径）构成，需由开发者完成填写
+static_library ("myapp ") {      ##static_library 中 指 定 业 务 模 块 的 编 译 结 果 ， 为 静 态 库 文 件 libmyapp.a ， 开 发 者 根 据 实 际 情 况 完 成 填 写
+sources = [
+"hello_world.c “  ##s o u rc e s 中指 定静 态库 .a所依 赖的 .c文 件 及其 路径 ，若 路径 中包 含 " / / " 则 表示 绝对 路径 （此 处为 代码 根路 径） ，
+若不包含 " / / " 则 表示 相对 路径
+]
+include_dirs = [      ##i n c l u d e _ d i rs 中 指定 s o u rc e 所 需要 依赖 的 .h文 件路 径
+"//utils/native/lite/include"
+]
+}
+编写模块 BUILD.gn 文件，指定需参与构建的特性模块
+●配置./applications/sample/wifi -iot/app/BUILD.gn 文件，在 features 字段中增加索引，使
+目标模块参与编译。 features 字段指定业务模块的路径和目标，以 my_first_app 举例， features
+字段配置如下。
+import("//build/lite/config/component/ lite_component.gni ")  
+lite_component ("app") {
+features = [
+"my_first_app:myapp ",  ##my_first_app 是相对路径，指向 ./applications/sample/wifi -
+iot/app/my_first_app/BUILD.gn; myapp 是目标，指向 ./applications/sample/wifi -
+iot/app/my_first_app/BUILD.gn 中的static_library ("myapp ")
+]
+}
+编译03.
+编译
+●配置完成后，点击左侧 “Rebuild” ，开始编译。
+●初次编译会解压编译工具，时间较长。等待编译完成即可。
+
+编译
+●编译出来的固件位于： out/hispark_pegasus/wifiiot_hispark_pegasus/
+●其中， Hi3861_wifiiot_app_allinone.bin 是我们要烧录到开发板的。
+烧录04.
+串口驱动安装
+●先使用配套的 Type -C 数据线，将开发板与电脑的 USB 口进行连接。
+●安装 CH340G 驱动。打开【工具软件 \CH340 驱动】文件夹，找到 CH341SER.EXE 文件。
+●双击 CH341SER.EXE 驱动，进入安装界面，点击安装按钮即可，驱动安装成功后，再点击确
+定按钮，即可显示安装驱动成功。
+
+串口驱动安装
+●打开Windows 的设备管理器，查看串口设备，若未出现 CH340 串口设备，请检查驱动是否安
+装正常。安装 CH340G 驱动。打开【工具软件 \CH340 驱动】文件夹，找到 CH341SER.EXE 
+文件。
+
+串口烧录
+●当前 DevEco Device Tool 工具支持 Hi3861 单板一键烧录功能 。需要连接开发板 ，配置开发板对应的串口 ，
+在编译结束后 ，进行烧录 。点击左侧 “工程配置 ”，找到 “upload_por t” 选项 ，选择开发板对应的烧录串口
+（注意：如果正在使用 Monitor 功能 ，请先关闭 Monitor ，才能正常烧 ，否则串口占用无法烧录成功 ）。
+
+烧录
+●点击 VSCode 左下角 “upload” 按键 ，等 待 提 示 （出现 Connecting ，please reset
+device ...），手动进行开发板复位 （按下开发板复位按键 ）。
+
+运行05.
+运行
+●烧录完成后 ，可以通过 Monitor 界面查看串口打印 ，配置 Monitor 串口 ，如下图所示 。
+

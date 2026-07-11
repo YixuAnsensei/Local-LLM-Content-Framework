@@ -1,0 +1,148 @@
+电子工艺实训
+ADC
+一、ADC原理
+二、按键介绍
+三、ADC案例程序：使用 ADC 值区分同一个引脚的不同按键
+四、ADC实训练习：使用按键控制 LED亮灭电子工艺实训 ADC
+一、ADC原理电子工艺实训 ADC
+1、模拟量与数字量电子工艺实训 ADC原理
+•模拟量
+➢连续地发生变化
+➢存储不方便
+•数字量
+➢数据是分散开的
+➢方便存储
+2、ADC（模数转换）原理
+数字系统的最大特点是只能对输入的数字信号进行处理。在工业和生活中有
+很多物理量都是模拟量，比如温度、湿度、有害气体的含量等。这些模拟量可以通
+过相应的传感器变成与之对应的电压、电流等模拟信号。
+为了实现数字系统对这些模拟信号的测量、运算和控制，就需要有一个从模
+拟信号到数字信号转换的过程，这个过程就叫模数转换。反之，将数字信号转换为
+模拟信号的过程，叫数模转换。电子工艺实训 ADC原理
+2、ADC（模数转换）原理电子工艺实训 ADC原理
+3、Hi3861V100 芯片ADC 模块的功能特性
+Hi3861V100 芯片的 ADC 模块具有以下功能特性：
+•输入时钟频率： 3MHz。
+•采样精度： 12bit。
+•单通道采样频率：小于 200kHz。
+•采样顺序：从通道 0 到通道 7，每个通道采样一个数据，循环采样。
+•支持采样数据平均滤波处理：平均次数 1、2、4、8。在多通道场景下，每个通道接
+收N 个数据（平均滤波个数）再切换通道。
+•模数转换电压基准：支持自动识别模式、 1.8V 基准模式、 3.3V 基准模式。电子工艺实训 ADC原理
+4、Hi3861V100 芯片的ADC 引脚分布
+Hi3861V100 芯片有8 个ADC 通道，分别是 ADC0～ADC7。其中，通道
+ADC7 是内部的 VBAT（Voltage of the Battery ，电池工作模式专用引脚）电压
+检测通道，不能进行 ADC 转换。通道 ADC0～ADC6 是12 位逐次逼近型的 ADC 通
+道，用来实现将模拟信号转换为数字信号。
+Hi3861V100 芯片的引脚数量是有限的，导致 ADC 功能没有独立的引脚，所
+以还是需要与 GPIO 进行引脚复用。
+对于同时具有 GPIO 和ADC 这两种功能（或更多功能）的引脚来说，同一
+时刻只能使用其中的一种功能。电子工艺实训 ADC原理
+4、Hi3861V100 芯片的ADC 引脚分布
+电子工艺实训 ADC原理
+5、相关API 介绍
+从OpenHarmony1.0.1 版开始到 3.2 Beta4 版，HAL 接口缺失了 ADC 相关的API。像下表所示的
+API 已经不能再使用了。
+❌电子工艺实训 ADC原理
+5、相关API 介绍
+我们可以 使用海思 SDK 的接口，接口位置如下：
+device\hisilicon \hispark_pegasus \sdk_liteos \include\hi_adc.h
+注意，ADC 读取数据的速度较慢，应当尽量避免在中断处理函数中使用。
+目前学习这一个 ADC 相关API 就可以了。
+电子工艺实训 ADC原理
+二、按键介绍电子工艺实训 ADC
+电子工艺实训 按键介绍
+1、核心板按键（这里记作 S3）
+
+2、OLED 显示屏板的按键（ S1、S2）
+电子工艺实训 按键介绍
+3、底板排插具体针脚位置
+GPIO05/SPI0_CS1/ADC2/PWM2_OUT电子工艺实训 按键介绍
+4、按键、电压与 ADC值关系电子工艺实训 按键介绍
+按键S1：
+•按键S1连接到了 Hi3861V100 芯片的17 号
+引脚上， 17号引脚的复用关系为
+GPIO-05、PWM2 和ADC2。
+•当按键S1 被按下的时候， ADC 值在228～455；
+•当按键S1 抬起的时候， ADC 值在1422～1820。
+•我们可以直接使用 ADC 值判断按键的状态，也可以将 ADC 值转换成电压再进行
+判断。
+
+4、按键、电压与 ADC值关系电子工艺实训 按键介绍
+按键S2：
+•按键S2也是连接到芯片的 17 号引脚上。
+•当按键S2 被按下的时候， ADC 值在455～682；
+•当按键S2 抬起的时候， ADC 值在1422～1820。
+按键S3：
+•按键S3也是连接到芯片的 17 号引脚上。
+•当按键S3 被按下的时候， ADC 值在5～228；
+•当按键S3 抬起的时候， ADC 值在1422～1820。
+
+4、按键、电压与 ADC值关系电子工艺实训 按键介绍
+S3
+三、ADC案例程序：使用 ADC 值区分同一个引脚的不同按键电子工艺实训 ADC
+1、API接口
+我们可以 使用海思 SDK 的接口，接口位置如下：
+device\hisilicon \hispark_pegasus \sdk_liteos \include\hi_adc.h
+注意，ADC 读取数据的速度较慢，应当尽量避免在中断处理函数中使用。
+目前学习这一个 ADC 相关API 就可以了。
+电子工艺实训 ADC案例程序
+2、相关头文件电子工艺实训 ADC案例程序
+hi_gpio_set_dir
+3、参考代码
+我们在src\applications \sample\wifi-iot\app目录下新建 adc_key项目目录 ，添加adc_key.c 源文
+件和BUILD.gn 配置文件。
+包含的头文件作用如下：电子工艺实训 ADC案例程序
+提供标准输入输出函数（如 printf），用于串口日志打印
+提供 POSIX 系统调用（如 usleep），用于微秒级延时控制
+定义 Hi3861 的基础数据类型（如 hi_u32, hi_u16 ），确保硬件兼容性
+提供 GPIO 复用功能配置接口（如 hi_io_set_func ），用于切换引脚功能模式（如 GPIO/ADC ）
+支持早期调试功能（如 hi_early_debug_init ），用于系统启动前的日志输出
+提供 GPIO 操作接口（如 hi_gpio_set_dir ），配置引脚输入 /输出方向及中断
+任务管理 API（如hi_task_create ），已过时（被 CMSIS -RTOS2 替代）
+定义 OpenHarmony 初始化宏（如 SYS_RUN ），用于注册应用入口函数
+CMSIS -RTOS2 多线程 API（如osThreadNew ），用于创建和管理 RTOS 任务
+提供 ADC 操作接口（如 hi_adc_read ），读取模拟通道电压值
+扩展标准库函数（如 memset_s ），提供安全内存操作
+3、参考代码
+adc_key.c 源文件中的宏定义和变量声明：电子工艺实训 ADC案例程序
+ADC_TEST_LENGTH 表示一个按键采样 次数，多采样几次取平均值
+3、参考代码
+adc_key.c 源文件中的 get_key_event 函数：电子工艺实训 ADC案例程序
+intget_key_event (void) 获取当前按键状态
+
+3、参考代码
+adc_key.c 源文件中的 convert_to_voltage 函数1：电子工艺实训 ADC案例程序
+hi_void convert_to_voltage (hi_u32data_len ) 
+ADC值转换为电压值再进行判断，也可以不用这个函数直接通过 ADC值判断
+3、参考代码
+adc_key.c 源文件中的 convert_to_voltage 函数2：电子工艺实训 ADC案例程序
+
+3、参考代码
+adc_key.c 源文件中的 app_demo_adc_test 函数：电子工艺实训 ADC案例程序
+voidapp_demo_adc_test (void)
+ADC转换值依次存入 g_adc_buf 中，再调用 convert_to_voltage 转换为对应的电压值
+3、参考代码
+adc_key.c 源文件中的 my_gpio_ adc_demo函数1：电子工艺实训 ADC案例程序
+voidmy_gpio_adc_demo (void*arg)
+先用hi_io_set_func 初始化GPIO_5作为GPIO与ADC复用功能，再用 hi_gpio_set_dir 设置引脚方向
+3、参考代码
+adc_key.c 源文件中的 my_gpio_isr_demo 函数2：电子工艺实训 ADC案例程序
+然后调用app_demo_adc_test 得到按键电压，判断是哪个按键被按下去
+3、参考代码
+adc_key.c 源文件中的 key_demo 函数：电子工艺实训 ADC案例程序
+voidkey_demo (void)
+标准的线程生成 osThreadNew ，最后用SYS_RUN(key_demo );启动本例程
+3、参考代码
+adc_key目录中的 BUILD.gn 配置文件：电子工艺实训 ADC案例程序
+
+3、参考代码
+上层app目录中的 BUILD.gn 配置文件：电子工艺实训 ADC案例程序
+
+四、ADC实训练习：使用按键控制 LED亮灭电子工艺实训 ADC
+•按OLED板载的按键 S1，打开主板的 LED灯，同时串口调试中同步更新显示 LED灯
+状态LED ON/OFF
+•按OLED板载的按键 S2，关闭主板的 LED灯，同时串口调试中同步更新显示 LED灯
+状态LED ON/OFF
+•按主板的自定义按键 S3，切换主板的 LED灯状态， 同时串口调试中同步更新显示
+LED灯状态LED ON/OFF

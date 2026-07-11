@@ -1,0 +1,104 @@
+GPIO口基础与应用
+内容
+•Pegasus智能家居开发套件
+•实验 2-1 点亮 LEDgn软件架构
+•外设驱动框架
+•实验 2-2 按键控制 LED
+一、 Pegasus智能家居开发套件
+•外观与参数
+
+一、 Pegasus智能家居开发套件
+•硬件组成
+
+一、 Pegasus智能家居开发套件
+•硬件组成
+
+一、 Pegasus智能家居开发套件
+•核心板•Hi3861V100 模组
+•Wi-Fi 天线
+•外置 Wi-Fi 天线的预留焊点
+•两个跳线帽
+•一个可编程 LED 灯
+•一个复位按键
+•一个 USB Type -C 接口
+•一个可编程按键
+•一个跳线帽
+•CH340USB 转串口芯片
+
+一、 Pegasus智能家居开发套件
+•Hi3861V100 模组
+•Hi3861V100 模组是搭载 Hi3861V100 芯片的物联网 Wi -Fi 模组
+•高度集成 2.4GHz SoC WiFi 芯片，符合 802.11 b/g/n 协议
+•具备 32 位高能效的 RISC-V 指令集架构
+•最大工作频率能够达到 160MHz
+•拥有 352KB 的SRAM，MB 的Flash 容量
+•15 个通用输入 /输出
+•7 路模数转换器（ Analog to Digital Converter ，ADC）输入
+•6路脉宽调制（ Pulse Width Modulation ，PWM）输出
+•3 个通用异步收发器（ Universal Asynchronous Receiver & Transmitter ，UART）接
+口
+•个串行外设接口（ Synchronous Peripheral Interface ，SPI）
+一、 Pegasus智能家居开发套件
+•CH340 USB 转串口芯片
+•经典的串口调试芯片
+•实现 UART 接口和 USB Type -C 接口间的信号转换
+•USB Type -C 接口
+•为核心板及整个套件进行供电
+•连接到电脑的 USB 接口，进行串口调试和系统烧录
+•复位按键
+•位按键被标记为 “RST”，也就是 RESET
+•它可以触发主控芯片的 CPU 硬件复位，使得程序重新开始执行
+•可编程按键
+•被标记为 “USER”，用于程序的按键输入
+一、 Pegasus智能家居开发套件
+•可编程 LED 灯
+•被标记为 “LED1”，用于显示程序的运行时状态
+•可以编写程序控制它的点亮或者熄灭
+•两组跳线帽
+•右侧的两个跳线帽分别被标记为 RX 和TX，分别用于连接主控芯片 UART 
+接口的 TX 和RX 引脚与 CH340 USB 转串口芯片的 RX 和TX 引脚
+•左侧的一个跳线帽被标记为 GPIO -09，用于连接主控芯片和可编程 LED 灯
+一、 Pegasus智能家居开发套件
+•底板
+
+二、实验 2-1 点亮 LED
+•连接方式
+•LED1正极接 3.3V，负极接 GPIO09
+•按键 S2一端接 GPIO05，另外一端接地
+
+二、实验 2-1 点亮 LED
+•源码结构
+
+二、实验 2-1 点亮 LED
+•第一个 BUILD.gn文件内容
+
+二、实验 2-1 点亮 LED
+•第二个 BUILD.gn内容
+
+二、实验 2-1 点亮 LED
+•led_demo.c 内容
+
+二、实验 2-1 点亮 LED
+•现象
+•编译后烧录进去，应该可以看到复位按键旁边的 LED灯一直在闪烁
+
+三、外设驱动框架
+•OpenHarmony 为轻量系统提供了一套简单的驱动封装接口，函数
+的定义相关头文件位于
+“base \iot_hardware \peripheral \interfaces \kits”
+
+三、外设驱动框架
+•具体的函数实现，需要在对应的 soc中
+
+三、外设驱动框架
+
+三、实验 2-2 按键控制 LED
+•连接方式
+•LED1正极接 3.3V，负极接 GPIO09
+•按键 S2一端接 GPIO05，另外一端接地
+
+四、实验 2-2 按键控制 LED
+•实验要求
+•当核心板上的按键 S2按下的时候， LED灯亮，并在串口监视器上显示
+“HI_GPIO_VALUE_1” ；当 S2抬起时， LED灯灭，并在串口监视器上显示
+

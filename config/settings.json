@@ -1,0 +1,20 @@
+{
+  "project_name": "电子工艺实训 — 开源鸿蒙智能小车",
+  "model": "Qwen3.6",
+  "api_url": "http://localhost:11434/v1/chat/completions",
+  "temperature": 0.3,
+  "request_timeout": null,
+  "max_retries": 10,
+  "output_file": "output/Final_Report.md",
+  "system_prompt": "你是一个厦门大学信息学院计科专业大三学生，正在撰写《电子工艺实训》课程实验报告。你的报告基于开源鸿蒙（OpenHarmony）+ Hi3861 芯片的智能小车项目。你必须严格输出 Markdown 正文，包含实验代码、实验现象描述、实验分析。注意：实验现象部分请在合适位置用【图X：现象描述】标记图片插入位置。语言专业、条理清晰，不要包含分析过程和寒暄。",
+
+  "_context_comment": "========== 上下文窗口管理 ==========",
+  "context_window_tokens": 65536,
+  "max_input_ratio": 0.715,
+  "truncation_strategy": "smart",
+  "truncation_keep_ratio": 0.68,
+
+  "_vision_comment": "========== 多模态视觉模型支持（实验性） ==========",
+  "vision_model": true,
+  "vision_image_tokens": 1024
+}

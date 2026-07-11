@@ -1,0 +1,270 @@
+电子工艺实训
+MQTT
+一、MQTT简介电子工艺实训 MQTT
+电子工艺实训 MQTT简介
+1、MQTT含义
+MQTT 的全称是 Message Queuing Telemetry Transport ，即消息队列遥感传输。
+MQTT 在它的3.1.1 规范中是这样定义的： MQTT 是用于物联网的 OASIS
+（Organization for the Advancement of Structured Information Standards ，
+结构化信息标准促进组织）标准消息传递协议，被设计为一种极其轻量级的发布 /
+订阅消息传输模型，非常适合连接具有小代码足迹和最小网络带宽的远程设备。
+电子工艺实训 MQTT简介
+2、MQTT主要特点
+（1）MQTT 工作在TCP/IP 协议栈上。
+（2）它是为硬件性能低下的远程设备，以及网络状况糟糕的场景而设计的。
+（3）MQTT 现在已经成了物联网的重要组成部分。
+MQTT 是一种基于客户端 -服务器的消息发布 /订阅传输协议，重量轻、开放、简单并且易于实施。这
+些特性使得它非常适合在许多情况下使用，包括受限制的环境。例如，机器对机器（ M2M）和物联
+网环境中的通信。在这些环境中往往只需要少量的代码，并且网络带宽非常宝贵。
+电子工艺实训 MQTT简介
+3、OpenHarmony 轻量系统中为什么选择 MQTT
+（1）开源。
+（2）轻巧高效。 MQTT 的客户端非常小，占用的资源极少，并且耗电量很小。因此可以在小型微控
+制器上使用。 MQTT 的消息头也很小，从而可以优化网络带宽。
+（3）双向通信。 MQTT 允许在“设备到云”和“云到设备”之间进行消息传递，很容易向一组设备
+广播消息。
+（4）扩展性强。 MQTT 可以扩展以便连接数百万个物联网设备。
+电子工艺实训 MQTT简介
+3、OpenHarmony 轻量系统中为什么选择 MQTT
+（5）消息传递可靠。消息传递的可靠性对于物联网项目来说是非常重要的。 MQTT定义了3 个服务
+质量级别来保障消息传递的可靠性。 QoS0 表示最多一次， QoS1 表示最少一次， QoS2 表示恰好
+一次。
+（6）支持不可靠的网络。许多物联网设备是通过不可靠的移动网络进行连接的， MQTT 对持久会话
+的支持减少了客户端与代理重新连接的时间。
+（7）具有安全性。 MQTT 使用TLS（Transport Layer Security ，安全传输层协议）加密消息，
+并且使用现代身份验证协议（例如 Oauth），这样既保证了消息传递的安全性，也很容易对客户端
+进行身份验证。
+二、MQTT的发布/订阅模型电子工艺实训 MQTT
+电子工艺实训 MQTT的发布/订阅模型
+1、基于主题的过滤机制
+
+电子工艺实训 MQTT的发布/订阅模型
+2、MQTT 客户端
+MQTT 客户端（ MQTT Client ）指的是运行 MQTT 库，并且通过网络连接到 MQTT 
+代理的任何设备。
+注意：发布者和订阅者都是 MQTT 客户端
+
+电子工艺实训 MQTT的发布/订阅模型
+•MQTT 客户端可以是体积小、资源受限的设备，例如 Hi3861 开发板。
+•MQTT 客户端也可以是体积更大、资源更丰富的 PC，或者服务器。2、MQTT 客户端
+电子工艺实训 MQTT的发布/订阅模型
+3、MQTT 代理
+MQTT 代理（MQTT Broker ）指的是实现发布 /订阅功能的服务器。 MQTT 代理是任何发布 /订阅模式
+的核心，负责接收所有的消息、过滤消息、确定每条消息的订阅者，并且将消息发送给这些订阅的
+MQTT 客户端。
+MQTT 代理的规模可大可小 ，它可以是一台运行 MQTT 代理程序的 PC、服务器，也可以是一个服务
+器集群。
+电子工艺实训 MQTT的发布/订阅模型
+4、MQTT 连接
+MQTT 基于TCP/IP 协议栈， MQTT 客户端和 MQTT 代理都需要有一个 TCP/IP 协
+议栈。
+请注意， MQTT 连接只在 MQTT 客户端和 MQTT 代理之间存在， 客户端之间从不直
+接连接。
+电子工艺实训 MQTT的发布/订阅模型
+4、MQTT 连接
+为了启动连接， MQTT客户端向 MQTT代理发送 CONNECT Packet （发起连接报文），
+而MQTT 代理以CONNACK Packet （连接回执报文）和状态代码进行响应。建立连
+接之后， MQTT 代理将保持连接状态，直到 MQTT 客户端发送断开连接命令或者连
+接中断了。
+电子工艺实训 MQTT的发布/订阅模型
+5、发布
+为了发布消息，左侧的 MQTT 客户端需要向 MQTT 代理发送 PUBLISH Packet （发布消息报文）。
+每条消息都必须包含一个主题， MQTT 代理会将消息转发给该主题的订阅者，也就是右侧的 MQTT 
+客户端。
+通常每条消息都有一个有效负载（ payload），其中包含了以字节流方式传输的数据。
+消息的发布者决定 payload 的数据结构，比如二进制、文本、 XML、JSON 等。
+电子工艺实训 MQTT的发布/订阅模型
+6、订阅
+为了订阅消息，左侧的 MQTT 客户端需要向 MQTT 代理发送 SUBSCRIBE Packet （订阅消息报文），
+而MQTT 代理以SUBACK Packet （订阅回执报文）进行响应。
+每次订阅都必须包含一个订阅列表，列表中可以包括多个主题。此后，左侧的 MQTT 客户端将收到
+已订阅主题的消息，如图中③、④两步所示的那样。这些消息来自包含这些主题的消息的发布者。
+也就是说，它们发布的消息中包含了这些主题。
+电子工艺实训 MQTT的发布/订阅模型
+7、取消订阅
+为了取消订阅消息，左侧的 MQTT 客户端需要向 MQTT 代理发送 UNSUBSCRIBE Packet （取消订阅
+消息报文），而 MQTT 代理以UNSUBACK Packet （取消订阅回执报文）进行响应。
+每一次取消订阅都必须包含一个取消订阅列表，列表中可以包括多个主题。此后，左侧的 MQTT 客
+户端将不再收到该主题的消息，如图中③、④两步所示的那样。
+电子工艺实训 MQTT的发布/订阅模型
+8、主题
+在MQTT 中，主题指的是 MQTT 代理用于为每个连接的 MQTT 客户端过滤消息的
+UTF-8 字符串。
+主题由一个或多个主题级别组成，每个主题级别由“ /”（主题级别分隔符）进行
+分隔。
+请注意，每个主题都必须包含至少一个字符，主题字符串允许包含空格，主题区分
+大小写。另外，单独的“ /”是一个有效的主题。
+比如：myhome/groundfloor /livingroom /temperature
+电子工艺实训 MQTT的发布/订阅模型
+8、单级通配符（ +）
+当订阅主题的时候， MQTT 客户端可以订阅一个明确的主题，也可以使用通配符同
+时订阅多个主题。请注意，通配符只能用于订阅主题，而不能用于发布消息。
+单级通配符代表且仅代表一个主题级别
+myhome/groundfloor/+/temperature
+✓myhome/groundfloor/Iivi ngroom/tempera ture
+✓myhome/groundfloor/ki tchen/tempera ture
+◊myhome/ground floor/kitchen/brigh tness
+◊myhome/first floor/kitchen/temperature
+◊myhome/g roundfloor/kitchen/ fridge/temperature
+电子工艺实训 MQTT的发布/订阅模型
+9、多级通配符（ +）
+多级通配符必须作为主题中的最后一个字符放置，并且前面有一个“ /”。
+当MQTT 客户端使用多级通配符订阅主题时，它会接收到以通配符之前的模式开头
+的主题的所有消息，无论主题级别有多深。
+如果只将多级通配符本身指定为主题， MQTT 客户端就将收到发送到 MQTT 代理
+的所有消息。myhome/groundfloor/ #
+✓myhome/groundfloor/Iivi ngroom/tempera ture
+✓myhome/groundfloor/ki tchen/tempera ture
+✓myhome/ground floor/kitchen/brigh tness
+◊myhome/first floor/kitchen/temperature
+三、Paho-MQTT 嵌入式版本电子工艺实训 MQTT
+电子工艺实训 Paho-MQTT 嵌入式版本
+1、Paho-MQTT 的含义
+Paho-MQTT 是Eclipse 基金会旗下的一个开源项目，主要实现了
+MQTT 客户端功能。
+Paho-MQTT 支持多种编程语言，包括 Java、Python、JavaScript 、
+GoLang、C/C++、.Net（C#）、Embedded C/C++ 等。
+本实训课程使用 的是它的 Embedded C/C++ 版本
+电子工艺实训 Paho-MQTT 嵌入式版本
+2、Paho-MQTT 的结构
+MQTTPacket 库Paho -MQTT 底层的库，最简单、最小，但实际上也是最难以使用的库。
+只负责处理 MQTT Packet 的序列化和反序列化
+支持 MQTT3.1 、MQTT3.1.1 ，但是目前不支持 MQTT5.0 。
+MQTTClient 库使用 C++语言实现，但是避开了动态内存分配和 STL（Standard Template Library ，标准模板库）的使用。
+对于依赖特定操作系统和网络的功能 ，MQTTClient 库提供了可替换的类 。
+基于MQTTPacket 库开发的，依赖 MQTTPacket 库，在 MQTTPacket 库的基础上提供了阻塞式 API 的支持。
+MQTTClient -C 库C 语言版本的 MQTTClient 库，适用于 LiteOS、FreeRTOS 等小型嵌入式操作系统。
+同样是基于 MQTTPacket 库开发的，依赖 MQTTPacket 库，也提供了阻塞式 API 的支持。
+电子工艺实训 Paho-MQTT 嵌入式版本
+3、Paho-MQTT 源码总体结构
+ 实训中主要用到的是 MQTTClient -C 库
+电子工艺实训 Paho-MQTT 嵌入式版本
+3、Paho-MQTT 源码总体结构
+MQTTClient -C 库的示例程序源码
+四、MQTT 代理Mosquitto电子工艺实训 MQTT
+电子工艺实训 MQTT 代理Mosquitto
+1、Mosquitto 简介
+只有MQTT 客户端还不够，我们还需要一个 MQTT 代理才能建立连接，并且进行测试。
+Mosquitto 是Eclipse 基金会旗下的一个开源的消息代理，实现了 MQTT 的5.0、3.1.1 和3.1 
+版本。
+Mosquitto 很轻量，适用于从低功耗 IoT 设备到服务器的所有设备。
+电子工艺实训 MQTT 代理Mosquitto
+2、Mosquitto windows版本安装
+官网链接 https://mosquitto.org/download/
+安装过程中，可以修改安装路径，其他默认即可。
+安装好后，我们右键此电脑找到他的服务并启动。
+
+电子工艺实训 MQTT 代理Mosquitto
+3、配置文件 mosquitto.conf 的修改
+在安装路径的 mosquitto 目录下修改 mosquitto.conf 配置文件，修改 三个地方
+第一处修改成不允许匿名登陆，将注释取消，后面加上 false
+
+电子工艺实训 MQTT 代理Mosquitto
+3、配置文件 mosquitto.conf 的修改
+在安装路径的 mosquitto 目录下修改 mosquitto.conf 配置文件，修改 三个地方
+第二处设置账户密码文件 pwfile.example 位置，这里以我的安装路径展示
+
+电子工艺实训 MQTT 代理Mosquitto
+3、配置文件 mosquitto.conf 的修改
+在安装路径的 mosquitto 目录下修改 mosquitto.conf 配置文件，修改 三个地方
+第三处设置监听端口 1883
+
+电子工艺实训 MQTT 代理Mosquitto
+4、设置Mosquitto 用户账号
+在安装路径的 mosquitto 目录下进入 cmd命令行
+
+电子工艺实训 MQTT 代理Mosquitto
+4、设置Mosquitto 用户账号
+mosquitto_passwd -c /MosquittoTest /pwfile.example FirstUserName
+（使用-c 参数会导致清空密码文件，重新插入用户）
+FirstUserName （账号名）
+
+电子工艺实训 MQTT 代理Mosquitto
+4、设置Mosquitto 用户账号
+mosquitto_passwd / MosquittoTest /pwfile.example SecondUserName
+（不使用 -c 表示追加用户，不影响旧用户）
+SecondUserName （账号名）
+
+电子工艺实训 MQTT 代理Mosquitto
+5、防火墙设置
+打开防火墙的高级设置，添加新的入站规则
+
+电子工艺实训 MQTT 代理Mosquitto
+5、防火墙设置
+打开防火墙的高级设置，添加新的入站规则
+
+电子工艺实训 MQTT 代理Mosquitto
+5、防火墙设置
+打开防火墙的高级设置，添加新的入站规则
+
+电子工艺实训 MQTT 代理Mosquitto
+5、防火墙设置
+打开防火墙的高级设置，添加新的入站规则
+
+电子工艺实训 MQTT 代理Mosquitto
+5、防火墙设置
+重启Mosquitto Broker 服务即可使用
+
+五、Paho-MQTT windows 版本客户端电子工艺实训 MQTT
+电子工艺实训 Paho-MQTT windows 版本客户端
+1、Paho-MQTT windows 版本安装
+电脑版的 mqtt客户端下载链接：
+https://repo.eclipse.org/content/repositories/paho -
+releases/org/eclipse/paho/org.eclipse.paho.ui.app/1.1.1/
+
+电子工艺实训 Paho-MQTT windows 版本客户端
+2、连接服务器地址并订阅主题
+
+电子工艺实训 Paho-MQTT windows 版本客户端
+2、连接服务器地址并订阅主题
+
+六、MQTT测试样例电子工艺实训 MQTT
+电子工艺实训 MQTT测试样例
+1、Paho-MQTT 嵌入式版本的整合
+Paho-MQTT 的Embedded C/C++版本库已经整合放入
+3.0lts/third_party /中，为pahomqtt 目录
+具体整合配置可以查看 3.0lts/third_party/pahomqtt/BUILD.gn 文件
+电子工艺实训 MQTT测试样例
+2、新建mqtt_test 目录
+\3.0-lts\src\applications \sample\wifi-iot\app\下新建mqtt_test
+目录，包含文件如下：
+
+电子工艺实训 MQTT测试样例
+3、mqtt_test \BUILD.gn 文件
+
+电子工艺实训 MQTT测试样例
+3、mqtt_test \mqtt_entry.c 文件
+WiFi STA （Station）模
+式连接，主要包括 WiFi
+初始化、扫描、连接以
+及网络接口处理
+设置wifi账号与密码，
+需要能连上 MQTT的
+服务器
+电子工艺实训 MQTT测试样例
+3、mqtt_test \mqtt_test.c 文件
+此处修改为自己架设的
+MQTT服务器ip地址和
+之前设置的 MQTT服务器
+用户名、密码MQTT服务器 ip地址
+之前设置的 MQTT服
+务器用户名和密码
+电子工艺实训 MQTT测试样例
+4、app\BUILD.gn 文件
+
+电子工艺实训 MQTT测试样例
+5、实验现象
+编译、上传、监视后，我们电脑
+端的MQTT客户端软件，可以看到
+右边已经有接收 MQTT信息了，主
+题为ohospub，消息内容为
+openharmony ，说明实验成功。
+电子工艺实训 MQTT测试样例
+5、实验现象
+电脑发送主题为 ohossub，内容
+为123456，查看串口监视，可以
+看到也收到了数据
+
+六、MQTT实验：电子工艺实训 MQTT
+开发板的 MQTT软件，向服务器发送 MQTT信息，主题为 ID，消息内容为自己的学号。
+电脑的MQTT客户端软件，向服务器发送 MQTT信息，主题为 name，消息内容为自己的姓名拼音。
